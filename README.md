@@ -46,3 +46,6 @@ An AI-powered silver price forecasting dashboard using:
 ```bash
 streamlit run app.py
 ```
+
+# ▶️ Run Deployed Project
+link - https://silverprdiction-icm7hketawkawzgqbugtx2.streamlit.app/
