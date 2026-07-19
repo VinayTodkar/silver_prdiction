@@ -127,29 +127,61 @@ prediction_days = st.sidebar.selectbox(
 )
 
 # =========================================================
+# FUNCTION TO FETCH SILVER DATA FROM YAHOO FINANCE
+# =========================================================
+
+def load_silver_data(years):
+
+    import time
+
+    ticker = "SI=F"
+
+    for attempt in range(3):
+
+        try:
+
+            df = yf.download(
+                ticker,
+                period=f"{years}y",
+                interval="1d",
+                progress=False,
+                auto_adjust=True
+            )
+
+            if not df.empty:
+
+                df.reset_index(inplace=True)
+
+                return df
+
+        except Exception:
+
+            time.sleep(5)
+
+    return pd.DataFrame()
+
+# =========================================================
 # LOAD LIVE SILVER DATA
 # =========================================================
+
 st.info("Fetching LIVE silver market data from Yahoo Finance...")
 
-try:
+df = load_silver_data(years)
 
-    df = yf.download(
-        "SI=F",
-        period=f"{years}y",
-        auto_adjust=True
+
+if df.empty:
+
+    st.warning(
+        "⚠️ Yahoo Finance API is temporarily unavailable. Loading backup dataset..."
     )
 
-    df.reset_index(inplace=True)
+    df = pd.read_csv("silver_data.csv")
 
-    if df.empty:
-        st.error("❌ Failed to fetch silver data.")
-        st.stop()
+else:
 
-except Exception as e:
+    st.success("✅ Live Yahoo Finance data loaded successfully!")
 
-    st.error(f"Error loading data: {e}")
-    st.stop()
-
+    
 # =========================================================
 # FIX MULTIINDEX
 # =========================================================

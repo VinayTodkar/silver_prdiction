@@ -5,8 +5,5 @@ matplotlib==3.8.4
 scikit-learn==1.4.2
 tensorflow==2.15.1
 keras==2.15.0
-protobuf==4.25.3
-h5py==3.10.0
 mplfinance==0.12.10b0
 yfinance==0.2.40
-plotly==5.22.0
